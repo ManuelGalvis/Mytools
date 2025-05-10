@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Ruta Maestra y Modelado - Taller Docente</title>
+    <!-- Barlow Condensed de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === CSS EMBEBIDO - MISMOS ESTILOS GLOBALES === */
+        /* (Idealmente, usar un archivo CSS externo en producción) */
+        :root {
+            --brand-dark-blue: #17334B; --brand-teal: #54BBAB; --brand-orange: #F39325; --brand-light-blue: #11678B;
+            --neutral-white: #ffffff; --neutral-gray-light: #f8f9fa; --neutral-gray-dark: #333333;
+            --primary-color: var(--brand-teal); --secondary-color: var(--brand-orange); --header-bg: var(--brand-dark-blue);
+            --footer-bg: var(--brand-dark-blue); --light-bg: var(--neutral-white); --dark-text: var(--neutral-gray-dark);
+            --light-text: var(--neutral-white); --link-color: var(--brand-light-blue);
+            --button-bg: var(--secondary-color); --button-text: var(--light-text); --button-hover-bg: var(--primary-color);
+            --button-hover-text: var(--light-text); --placeholder-bg: #e9ecef; --placeholder-border: #ced4da;
+            --code-bg: #fceae6; --code-border: #ffccb3; --code-text: #D94D15;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; }
+        body { font-family: 'Barlow Condensed', sans-serif; line-height: 1.65; color: var(--dark-text); background-color: var(--neutral-gray-light); font-weight: 400; }
+        #main-header { background-color: var(--header-bg); color: var(--light-text); padding: 0.8rem 1.5rem; position: sticky; top: 0; z-index: 1000; width: 100%; box-shadow: 0 3px 6px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; }
+        .header-logo-placeholder { width: 150px; height: 45px; background-color: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 300; }
+        #main-header nav ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: flex-end; }
+        #main-header nav ul li { margin: 0.2rem 0.5rem; }
+        #main-header nav ul li a { color: var(--light-text); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease; font-size: 1rem; }
+        #main-header nav ul li a:hover, #main-header nav ul li a:focus { background-color: var(--button-bg); color: var(--button-text); outline: none; }
+        #main-header .back-to-index a { background-color: var(--secondary-color); color: var(--light-text); }
+        #main-header .back-to-index a:hover { background-color: var(--primary-color); }
+
+        .page-main-content { max-width: 1000px; margin: 30px auto; padding: 30px; background-color: var(--light-bg); box-shadow: 0 0 20px rgba(0,0,0,0.08); border-radius: 10px; }
+        .page-title { color: var(--brand-dark-blue); margin-bottom: 30px; font-size: 2.5rem; text-align: center; font-weight: 700; padding-bottom: 10px; border-bottom: 3px solid var(--primary-color); }
+        .page-main-content h3 { color: var(--secondary-color); margin-top: 35px; margin-bottom: 18px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--secondary-color); padding-bottom: 8px; display: inline-block; }
+        .page-main-content h4 { color: var(--brand-light-blue); margin-top: 25px; margin-bottom: 12px; font-size: 1.4rem; font-weight: 600; }
+        .page-main-content p, .page-main-content ul, .page-main-content ol { margin-bottom: 18px; font-size: 1.1rem; }
+        .page-main-content ul, .page-main-content ol { padding-left: 40px; } .page-main-content li { margin-bottom: 12px; }
+        .page-main-content strong { font-weight: 700; color: var(--brand-dark-blue); }
+        .page-main-content code, .page-main-content .emphasis { background-color: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; color: var(--code-text); border: 1px solid var(--code-border); font-weight: 600; }
+        .image-placeholder-page { background-color: var(--placeholder-bg); border: 2px dashed var(--placeholder-border); padding: 20px; margin: 20px auto 30px auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; min-height: 150px; max-width: 600px; text-align: center; color: #6c757d; font-style: italic; }
+        
+        .ruta-paso {
+            background-color: #f0f8ff; /* Azul muy claro pastel */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .ruta-paso h4 { color: var(--primary-color); margin-top: 0; font-size: 1.3rem; }
+        .ruta-paso p, .ruta-paso ul { font-size: 1.05rem; }
+
+        .example-question-container { background-color: #fffaf0; /* Crema muy claro */ border: 1px solid #ffe4b5; border-left: 5px solid var(--secondary-color); padding: 20px; margin: 25px 0; border-radius: 8px; box-shadow: 2px 2px 8px rgba(0,0,0,0.05); }
+        .example-question-container h4 { color: var(--brand-dark-blue); margin-top: 0; border-bottom: 1px solid var(--brand-dark-blue); padding-bottom: 5px; }
+        .example-question-container .question-text { font-weight: 500; margin-bottom: 10px; color: var(--header-bg); }
+        .example-question-container ol.options { list-style-type: upper-alpha; padding-left: 20px; margin-top: 10px; }
+        .example-question-container ol.options li { margin-bottom: 5px; }
+        .correct-answer-box {
+            border: 2px solid var(--accent-color);
+            background-color: #e6ffed;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        .correct-answer-box strong { color: var(--accent-color); }
+
+        #main-footer { background-color: var(--footer-bg); color: #bdc3c7; text-align: center; padding: 25px 15px; margin-top: 40px; font-size: 0.9rem; }
+        #main-footer p { margin-bottom: 8px; font-weight: 300; } #main-footer strong { font-weight: 600; color: var(--light-text); }
+        .footer-logo-placeholder { width: 120px; height: 40px; background-color: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.5); margin: 10px auto; display:flex; align-items:center; justify-content:center; font-size:0.7rem;}
+
+        @media (max-width: 768px) {
+            #main-header { flex-direction: column; text-align: center; padding: 0.6rem;}
+            .header-logo-placeholder { margin: 5px auto; }
+            #main-header nav ul { margin-top: 8px; justify-content: center; }
+            #main-header nav ul li { margin: 0.2rem 0.4rem; }
+            #main-header nav ul li a { font-size: 0.9rem; }
+            .page-main-content { padding: 20px; margin: 20px 10px; }
+            .page-title { font-size: 2rem; }
+            .page-main-content h3 { font-size: 1.5rem; }
+            .page-main-content h4 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="header-logo-placeholder">
+            (LOGO Grupo Edúcate)
+        </div>
+        <nav>
+            <ul>
+                <li class="back-to-index"><a href="index.html">← Inicio Taller</a></li>
+                <li><a href="contexto_saber11.html">Contexto y DCE</a></li>
+                <li><a href="estrategias_aula.html">Estrategias Aula</a></li>
+                <li><a href="la_meta.html">La Meta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-main-content">
+        <h2 class="page-title">Módulo 2: La Ruta Metodológica General y Modelado</h2>
+
+        <div class="image-placeholder-page">
+            <p>(Imagen: Un camino claro con 4 pasos numerados, o una brújula con 4 puntos cardinales representando las fases)</p>
+        </div>
+
+        <h3>A. La Ruta Metodológica de Grupo Edúcate Colombia: Un Proceso de 4 Fases</h3>
+        <p>Para abordar de manera sistemática y efectiva la mayoría de las preguntas de Saber 11 (excluyendo Inglés, que tiene un enfoque particular), Grupo Edúcate Colombia propone una <span class="emphasis">Ruta Metodológica</span> basada en cuatro fases esenciales. Esta ruta no es una fórmula mágica, sino un proceso de pensamiento crítico que ayuda a los estudiantes a organizar su abordaje, minimizar errores y maximizar su comprensión.</p>
+        <p>Aunque cada área tiene matices (Ruta del Lector Crítico, Ruta del Razonamiento Matemático, etc.), las <strong>cuatro fases fundamentales</strong> son transversales:</p>
+
+        <div class="ruta-paso">
+            <h4>PASO 1: DECODIFICACIÓN / INMERSIÓN (Entender el Reto)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Asegurar que el estudiante comprenda a cabalidad la información presentada en el contexto (texto, gráfico, tabla, situación problema) y lo que se le está solicitando específicamente en la pregunta.</p>
+            <p><strong>Acciones Clave del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Lectura/Observación Atenta del Contexto:</strong> Leer el texto descriptivo, analizar el gráfico, la tabla, el esquema del experimento o el modelo presentado. Identificar el tema central, las variables involucradas, las condiciones iniciales y cualquier restricción o supuesto importante.</li>
+                <li><strong>Identificar la Pregunta Específica/Objetivo:</strong> Leer cuidadosamente el enunciado. ¿Qué se pide exactamente? (Explicar, predecir, interpretar, comparar, identificar, calcular, argumentar, etc.). ¿Cuál es el foco de la pregunta?</li>
+                <li><strong>Extraer Información Clave:</strong> Identificar y señalar (mental o físicamente) los datos relevantes, palabras clave, unidades, términos técnicos y la tarea central solicitada.</li>
+                <li><strong>Parafrasear (si ayuda):</strong> Si la situación es compleja, intentar describirla con palabras propias para confirmar la comprensión.</li>
+            </ul>
+            <p><strong>Guía del Docente (Fragmentos de las Rutas Específicas):</strong></p>
+            <ul>
+                <li>Modelar cómo "leer" diferentes tipos de estímulos, cómo extraer información relevante y cómo distinguir información esencial de detalles secundarios.</li>
+                <li>Enfatizar la lectura detallada de la pregunta para evitar responder algo distinto a lo solicitado.</li>
+                <li>Usar <strong>Preguntas Orientadoras (PO)</strong> como: <em>"¿De qué trata la situación?", "¿Qué información me da esta tabla/gráfico?", "¿Qué me piden exactamente?", "¿Qué palabras clave indican la tarea?".</em></li>
+            </ul>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 2: CONEXIÓN Y ESTRATEGIA (Activar Saberes y Planificar)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Ayudar al estudiante a conectar la pregunta y el contexto con sus conocimientos previos (conceptuales, procedimentales) del área y a seleccionar un plan o estrategia de abordaje coherente.</p>
+            <p><strong>Acciones Clave del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Activar Conocimiento Relevante:</strong> ¿Qué conceptos, leyes, teorías, fórmulas, modelos o procesos (biológicos, químicos, físicos, sociales, matemáticos, etc.) necesito recordar y aplicar aquí?</li>
+                <li><strong>Identificar Principios/Tipo de Razonamiento:</strong> ¿La respuesta es directa/literal? ¿Requiere inferencia, deducción, análisis de relaciones causa-efecto, comparación, evaluación de argumentos?</li>
+                <li><strong>Seleccionar/Diseñar un Plan/Modelo:</strong> ¿Cómo voy a resolver esto? ¿Necesito plantear una ecuación, usar una fórmula, dibujar un diagrama, construir una tabla, interpretar el gráfico de cierta manera, seguir unos pasos lógicos?</li>
+                <li><strong>Anticipar Pasos (si aplica):</strong> Esbozar (mentalmente o por escrito) la secuencia de pasos necesarios para ejecutar el plan.</li>
+            </ul>
+            <p><strong>Guía del Docente (Fragmentos de las Rutas Específicas):</strong></p>
+            <ul>
+                <li>Ayudar a los estudiantes a hacer explícitos los vínculos entre la situación presentada y los principios científicos/sociales/matemáticos subyacentes.</li>
+                <li>Discutir diferentes estrategias posibles para un mismo problema y cuándo usar cada una.</li>
+                <li>Modelar cómo traducir una situación verbal a una expresión matemática, un esquema conceptual, etc.</li>
+                <li>Usar <strong>Preguntas Orientadoras (PO)</strong> como: <em>"¿Qué tema que aprendiste se aplica aquí?", "¿Qué necesitas recordar para resolver esto?", "¿Cuál sería tu primer paso?", "¿Qué estrategia matemática/científica/lectora vas a usar y por qué?".</em></li>
+            </ul>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 3: EJECUCIÓN Y EVALUACIÓN (Resolver/Analizar y Juzgar Opciones)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Guiar la aplicación de la estrategia o razonamiento definido, y desarrollar el pensamiento crítico mediante el análisis riguroso de TODAS las opciones de respuesta, fundamentando el descarte de los distractores.</p>
+            <p><strong>Acciones Clave del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Ejecutar el Plan:</strong> Realizar los cálculos, aplicar el razonamiento lógico, seguir los pasos de la estrategia, interpretar los datos según el plan de la Fase 2.</li>
+                <li><strong>Análisis Crítico de CADA Opción (A, B, C, D):</strong> Leer cada opción cuidadosamente.</li>
+                <li><strong>Contrastar con Razonamiento/Evidencia:</strong> ¿Esta opción es coherente con mi explicación/predicción/cálculo basado en principios? ¿Se apoya en la información del contexto?</li>
+                <li><strong>Identificar y Descartar Distractores (¡Paso Clave!):</strong> Para cada opción incorrecta, determinar <span class="emphasis">por qué</span> es inválida (científica, lógica o contextualmente): ¿Contradice una ley/principio? ¿Es una mala interpretación de datos/gráficos? ¿Aplica incorrectamente un concepto? ¿Confunde causa con efecto? ¿Es una creencia errónea? ¿Es irrelevante a la pregunta? ¿Es una simplificación indebida?</li>
+            </ul>
+            <p><strong>Guía del Docente (Fragmentos de las Rutas Específicas):</strong></p>
+            <ul>
+                <li>Modelar el proceso de razonamiento deductivo o inductivo según el caso, y el análisis sistemático de las opciones.</li>
+                <li>Enseñar a identificar los tipos de errores y trampas comunes en los distractores de cada área.</li>
+                <li>Fomentar la justificación explícita del descarte de cada opción incorrecta, usando argumentos sólidos.</li>
+                <li>Usar <strong>Preguntas Orientadoras (PO)</strong> como: <em>"¿Cómo llegaste a ese resultado/conclusión?", "¿Qué evidencia soporta/refuta la opción A?", "¿Qué error específico encuentras en la opción B?", "¿Por qué la opción C parece correcta pero no lo es?".</em></li>
+            </ul>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 4: VALIDACIÓN Y SELECCIÓN (Confirmar y Elegir la Mejor Respuesta)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Consolidar la elección final, asegurando que sea la opción más precisa, completa y científicamente/lógicamente fundamentada según la pregunta y la evidencia disponible.</p>
+            <p><strong>Acciones Clave del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Revisar la Coherencia Global:</strong> Verificar que la opción elegida responde directamente a la pregunta (Fase 1), se alinea con los principios/conceptos relevantes (Fase 2) y es consistente con el análisis y la evidencia (Fase 3).</li>
+                <li><strong>Evaluar la Razonabilidad:</strong> ¿La respuesta tiene sentido en el contexto (biológico, químico, físico, social, matemático)? ¿Las magnitudes o relaciones son lógicas?</li>
+                <li><strong>Comparar Finalistas (si hay duda):</strong> Si dos opciones parecen plausibles, reevaluarlas críticamente: ¿Cuál ofrece la explicación más completa o directa? ¿Cuál está mejor sustentada por los datos o principios fundamentales?</li>
+                <li><strong>Seleccionar la Respuesta Definitiva:</strong> Marcar la opción que mejor cumple todos los criterios, entendiendo por qué es superior a las demás.</li>
+            </ul>
+            <p><strong>Guía del Docente (Fragmentos de las Rutas Específicas):</strong></p>
+            <ul>
+                <li>Enfatizar que en pruebas estandarizadas se busca la <span class="emphasis">mejor respuesta</span> entre las opciones dadas, y esta es siempre la que tiene el soporte más fuerte y directo.</li>
+                <li>Fomentar una última revisión de la conexión entre la pregunta, el contexto, el análisis y la respuesta seleccionada.</li>
+                <li>Promover la confianza basada en el proceso riguroso de análisis.</li>
+                <li>Usar <strong>Preguntas Orientadoras (PO)</strong> como: <em>"¿Esta respuesta es la explicación más sólida?", "¿Es coherente con todos los datos presentados?", "¿Responde exactamente a lo que se preguntó inicialmente?", "¿Podrías explicarle a un compañero por qué esta es la correcta y las otras no?".</em></li>
+            </ul>
+        </div>
+
+        <hr style="margin: 40px 0 30px 0; border-width: 1.5px; border-color: var(--primary-color);">
+
+        <h3>B. Modelado General de la Ruta con un Ejemplo de Lectura Crítica</h3>
+        <p>Para ilustrar cómo estas cuatro fases se aplican en la práctica, vamos a tomar una pregunta de Lectura Crítica y recorrer la ruta paso a paso. Este proceso de modelado es crucial para que ustedes, como docentes, puedan luego guiar a sus estudiantes.</p>
+        
+        <div class="example-question-container">
+            <h4>Pregunta Modelo (Tomada de ICFES 2024 - Pregunta 26, Sesión 1, pág. 12)</h4>
+            <p class="question-text"><strong>Contexto (Primer Párrafo Completo):</strong></p>
+            <p><em>Desde principios de la década de 1960 hasta aproximadamente 1980, la República de Sudáfrica aplicó uno de los sistemas de censura más exhaustivos del mundo. Dicho sistema trataba de controlar la propagación de signos en cualquiera de sus formas. No solo los libros, las revistas, las películas y las obras teatrales, sino también las camisetas, los llaveros, las muñecas, los juguetes y los letreros de las tiendas - en realidad, cualquier cosa portadora de un mensaje que pudiera ser "indeseable" - tenían que someterse al análisis de los censores antes de poder hacerse públicos. En la Unión Soviética había unas setenta mil personas que supervisaban las actividades de unos siete mil escritores. <strong>Sin embargo</strong>, la proporción entre censores y escritores en Sudáfrica era, en todo caso, superior a diez a uno. Los paranoicos se comportan como si el ambiente estuviera repleto de mensajes codificados. Durante décadas, el Estado sudafricano vivió inmerso en un estado de paranoia. La paranoia es la enfermedad de los gobiernos inseguros, en particular, de las dictaduras. Uno de los rasgos distintivos de las dictaduras modernas respecto a las anteriores ha sido la amplitud y la rapidez con que la paranoia puede extenderse. Pero Sudáfrica y la Unión Soviética no eran casos únicos, Reinaldo Arenas escribió sobre la existencia en Cuba de un ambiente de "amenaza oficial" que hacía del ciudadano "no solo una persona objeto de represión, sino también autorreprimida, no solo una persona censurada, sino autocensurada, no solo vigilada, sino que se vigila a sí misma".</em></p>
+            <p class="question-text" style="margin-top:15px;"><strong>Pregunta:</strong></p>
+            <p><strong>26. Considere el siguiente fragmento del texto:</strong><br>
+            "En la Unión Soviética había unas setenta mil personas que supervisaban las actividades de unos siete mil escritores. <strong>Sin embargo</strong>, la proporción entre censores y escritores en Sudáfrica era, en todo caso, superior a diez a uno".</p>
+            <p><strong>¿Qué indica, en este fragmento, la expresión "Sin embargo"?</strong></p>
+            <ol class="options">
+                <li>A. Que lo que viene a continuación de la expresión en cuestión es un argumento a favor de lo dicho en la oración que está antes de la expresión.</li>
+                <li><strong>B. Que, a pesar de la cantidad de censores existentes en la Unión Soviética, en Sudáfrica la censura era más intensa en términos proporcionales.</strong> <!-- Respuesta Correcta Marcada --> </li>
+                <li>C. Que, a pesar de la enorme cantidad de escritores existentes en la Unión Soviética, en Sudáfrica el número es mayor en términos proporcionales.</li>
+                <li>D. Que la oración que está después de la expresión en cuestión es un argumento a favor de lo dicho, en la oración que está antes de la expresión.</li>
+            </ol>
+
+            <h4>Aplicando la Ruta del Lector Crítico (Modelado Detallado):</h4>
+            <ol>
+                <li>
+                    <strong>PASO 1: INMERSIÓN (Entender Texto y Tarea)</strong>
+                    <ul>
+                        <li><strong>Contexto General:</strong> El primer párrafo habla de la censura exhaustiva en Sudáfrica, la compara con la URSS, y luego introduce el concepto de paranoia en dictaduras.</li>
+                        <li><strong>Fragmento Específico:</strong> Compara la supervisión de escritores en la URSS (70,000 supervisores para 7,000 escritores) con la proporción en Sudáfrica ("superior a diez a uno" censores por escritor).</li>
+                        <li><strong>Pregunta:</strong> ¿Qué indica la expresión "Sin embargo" EN ESTE FRAGMENTO? Es una pregunta sobre la función de un conector lógico.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>PASO 2: CONEXIÓN (Vincular Pregunta, Texto y Competencia)</strong>
+                    <ul>
+                        <li><strong>Conocimiento Previo:</strong> El conector "Sin embargo" (like 'however', 'but', 'nevertheless') introduce un contraste, una objeción, o una idea que se opone o matiza lo dicho anteriormente.</li>
+                        <li><strong>Habilidad Lectora:</strong> Comprender relaciones lógicas entre partes de un texto (específicamente, la función de un conector de contraste).</li>
+                        <li><strong>Plan:</strong> Analizar las dos ideas conectadas por "Sin embargo" y ver cómo se oponen o contrastan. Luego, buscar la opción que mejor describa esa relación de contraste.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>PASO 3: EVALUACIÓN (Analizar Opciones y Distractores)</strong>
+                    <ul>
+                        <li><strong>Idea 1 (antes de "Sin embargo"):</strong> En la URSS, muchos supervisores (70 mil) para muchos escritores (7 mil). Implica una proporción de 10 supervisores por escritor.</li>
+                        <li><strong>Idea 2 (después de "Sin embargo"):</strong> En Sudáfrica, la proporción censores/escritores era SUPERIOR a diez a uno.</li>
+                        <li><strong>Análisis de Opciones:</strong>
+                            <ul>
+                                <li>A: "Argumento a favor". Incorrecto. "Sin embargo" introduce contraste, no apoyo directo.</li>
+                                <li>B: "A pesar de la cantidad de censores en la URSS (implicando que era alta), en Sudáfrica la censura era más intensa en términos proporcionales". Esto SÍ refleja un contraste. La URSS tenía una alta proporción (10 a 1), pero Sudáfrica la tenía AÚN MAYOR. POSIBLE.</li>
+                                <li>C: Habla de "enorme cantidad de escritores". El foco del contraste introducido por "sin embargo" está en la PROPORCIÓN de censores/supervisores, no en la cantidad absoluta de escritores. DESCARTADA.</li>
+                                <li>D: "Argumento a favor" y estructura invertida. Incorrecto por la función de "sin embargo". DESCARTADA.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>PASO 4: JUSTIFICACIÓN Y SELECCIÓN (Validar y Elegir)</strong>
+                    <ul>
+                        <li>La opción B es la única que captura correctamente la relación de contraste: aunque la supervisión en la URSS era notable (proporción 10:1), la situación en Sudáfrica, en términos de proporción de control, era aún más extrema ("superior a diez a uno"). "Sin embargo" introduce esta idea de que, a pesar de lo que se dijo de la URSS, lo de Sudáfrica era incluso más intenso en ese aspecto.</li>
+                         <li><div class="correct-answer-box"><strong>Respuesta Correcta (Según análisis): B</strong></div></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        <p style="margin-top: 30px;">Este modelado ilustra cómo el uso sistemático de las 4 Fases puede guiar el análisis de una pregunta compleja, ayudando a desglosar el problema, activar conocimientos, evaluar opciones y llegar a una respuesta fundamentada. En las siguientes secciones, los docentes explorarán cómo aplicar rutas específicas para cada área con sus estudiantes.</p>
+
+    </main>
+
+    <footer id="main-footer">
+        <div class="footer-logo-placeholder">
+            (LOGO Grupo Edúcate)
+        </div>
+        <p><strong>Autor:</strong> Marlon Galvis Villa - Departamento de Pedagogía, Grupo Edúcate Colombia.</p>
+        <p>Módulo 2 del Taller Docente Saber 11.</p>
+    </footer>
+</body>
+</html>
