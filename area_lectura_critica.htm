@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Práctico: Lectura Crítica - Taller Docente</title>
+    <!-- Barlow Condensed de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === CSS EMBEBIDO - MISMOS ESTILOS GLOBALES === */
+        :root {
+            --brand-dark-blue: #17334B; --brand-teal: #54BBAB; --brand-orange: #F39325; --brand-light-blue: #11678B;
+            --neutral-white: #ffffff; --neutral-gray-light: #f8f9fa; --neutral-gray-dark: #333333;
+            --primary-color: var(--brand-teal); --secondary-color: var(--brand-orange); --header-bg: var(--brand-dark-blue);
+            --footer-bg: var(--brand-dark-blue); --light-bg: var(--neutral-white); --dark-text: var(--neutral-gray-dark);
+            --light-text: var(--neutral-white); --link-color: var(--brand-light-blue);
+            --button-bg: var(--secondary-color); --button-text: var(--light-text); --button-hover-bg: var(--primary-color);
+            --button-hover-text: var(--light-text); --placeholder-bg: #e9ecef; --placeholder-border: #ced4da;
+            --code-bg: #fceae6; --code-border: #ffccb3; --code-text: #D94D15;
+            --guided-practice-bg: #fffbe6; /* Amarillo muy pálido para práctica guiada */
+            --guided-practice-border: #ffe58f;
+            --independent-practice-bg: #e6f7ff; /* Azul muy pálido para práctica independiente */
+            --independent-practice-border: #91d5ff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; }
+        body { font-family: 'Barlow Condensed', sans-serif; line-height: 1.65; color: var(--dark-text); background-color: var(--neutral-gray-light); font-weight: 400; }
+        #main-header { background-color: var(--header-bg); color: var(--light-text); padding: 0.8rem 1.5rem; position: sticky; top: 0; z-index: 1000; width: 100%; box-shadow: 0 3px 6px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; }
+        .header-logo-placeholder { width: 150px; height: 45px; background-color: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 300; }
+        #main-header nav ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: flex-end; }
+        #main-header nav ul li { margin: 0.2rem 0.5rem; }
+        #main-header nav ul li a { color: var(--light-text); text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease; font-size: 1rem; }
+        #main-header nav ul li a:hover, #main-header nav ul li a:focus { background-color: var(--button-bg); color: var(--button-text); outline: none; }
+        #main-header .back-to-index a { background-color: var(--secondary-color); color: var(--light-text); }
+        #main-header .back-to-index a:hover { background-color: var(--primary-color); }
+
+        .page-main-content { max-width: 1000px; margin: 30px auto; padding: 30px; background-color: var(--light-bg); box-shadow: 0 0 20px rgba(0,0,0,0.08); border-radius: 10px; }
+        .page-title { color: var(--brand-dark-blue); margin-bottom: 30px; font-size: 2.5rem; text-align: center; font-weight: 700; padding-bottom: 10px; border-bottom: 3px solid var(--primary-color); }
+        .page-main-content h3 { color: var(--secondary-color); margin-top: 35px; margin-bottom: 18px; font-size: 1.8rem; font-weight: 700; border-bottom: 2px solid var(--secondary-color); padding-bottom: 8px; display: inline-block; }
+        .page-main-content h4 { color: var(--brand-light-blue); margin-top: 25px; margin-bottom: 12px; font-size: 1.4rem; font-weight: 600; }
+        .page-main-content p, .page-main-content ul, .page-main-content ol { margin-bottom: 18px; font-size: 1.1rem; }
+        .page-main-content ul, .page-main-content ol { padding-left: 40px; } .page-main-content li { margin-bottom: 12px; }
+        .page-main-content strong { font-weight: 700; color: var(--brand-dark-blue); }
+        .page-main-content code, .page-main-content .emphasis { background-color: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; color: var(--code-text); border: 1px solid var(--code-border); font-weight: 600; }
+        .image-placeholder-page { background-color: var(--placeholder-bg); border: 2px dashed var(--placeholder-border); padding: 20px; margin: 20px auto 30px auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; min-height: 150px; max-width: 600px; text-align: center; color: #6c757d; font-style: italic; }
+        
+        .ruta-paso { background-color: #e6f7ff; /* Azul muy claro */ border-left: 5px solid var(--brand-light-blue); padding: 15px; margin-bottom: 20px; border-radius: 0 5px 5px 0; }
+        .ruta-paso h4 { color: var(--brand-light-blue); margin-top: 0; font-size: 1.3rem; }
+        .ruta-paso p, .ruta-paso ul { font-size: 1.05rem; }
+
+        .example-question-container { background-color: #fff; border: 1px solid #ddd; border-left: 5px solid var(--secondary-color); padding: 20px; margin: 25px 0; border-radius: 8px; box-shadow: 2px 2px 8px rgba(0,0,0,0.05); }
+        .example-question-container h4 { color: var(--brand-dark-blue); margin-top: 0; border-bottom: 1px solid var(--brand-dark-blue); padding-bottom: 5px; }
+        .example-question-container .context-text { background-color: #f9f9f9; padding: 10px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #eee; font-size: 1rem; }
+        .example-question-container .question-title { font-weight: 600; margin-bottom: 10px; color: var(--header-bg); display: block; }
+        .example-question-container ol.options { list-style-type: upper-alpha; padding-left: 20px; margin-top: 10px; }
+        .example-question-container ol.options li { margin-bottom: 8px; }
+        .correct-answer-box { border: 2px solid var(--accent-color); background-color: #e6ffed; padding: 10px; margin-top: 10px; border-radius: 5px; font-weight: 600; }
+        .correct-answer-box strong { color: var(--accent-color); }
+        .prompt { font-style: italic; color: var(--link-color); margin: 8px 0; display: block; background-color: #f0f8ff; padding: 8px; border-radius: 4px; border-left: 3px solid var(--link-color); }
+        .practice-box { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .guided-practice { background-color: var(--guided-practice-bg); border: 1px solid var(--guided-practice-border); }
+        .independent-practice { background-color: var(--independent-practice-bg); border: 1px solid var(--independent-practice-border); }
+
+
+        #main-footer { background-color: var(--footer-bg); color: #bdc3c7; text-align: center; padding: 25px 15px; margin-top: 40px; font-size: 0.9rem; }
+        #main-footer p { margin-bottom: 8px; font-weight: 300; } #main-footer strong { font-weight: 600; color: var(--light-text); }
+        .footer-logo-placeholder { width: 120px; height: 40px; background-color: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.5); margin: 10px auto; display:flex; align-items:center; justify-content:center; font-size:0.7rem;}
+
+        @media (max-width: 768px) { /* Mismos media queries que antes */ }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="header-logo-placeholder">(LOGO Grupo Edúcate)</div>
+        <nav>
+            <ul>
+                <li class="back-to-index"><a href="index.html">← Inicio Taller</a></li>
+                <li><a href="contexto_saber11.html">Contexto y DCE</a></li>
+                <li><a href="ruta_maestra.html">La Ruta Maestra</a></li>
+                <li><a href="estrategias_aula.html">Estrategias Aula</a></li>
+                <!-- Aquí podrías tener un submenú o enlaces a las otras áreas -->
+                <li><a href="area_matematicas.html">Matemáticas</a></li>
+                <li><a href="area_sociales.html">Sociales</a></li>
+                <li><a href="area_naturales.html">C. Naturales</a></li>
+                <li><a href="area_ingles.html">Inglés</a></li>
+                <li><a href="la_meta.html">La Meta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-main-content">
+        <h2 class="page-title">Taller Práctico: Dominando Lectura Crítica 🧐</h2>
+
+        <div class="image-placeholder-page">
+            <p>(Imagen representativa de Lectura Crítica: Libros abiertos, lupa, persona analizando un texto)</p>
+        </div>
+
+        <h3>La Ruta del Lector Crítico: Tus 4 Pasos Estratégicos</h3>
+        <p>Para abordar con éxito las preguntas de Lectura Crítica, es fundamental seguir un proceso estructurado. La Ruta del Lector Crítico de Grupo Edúcate Colombia se basa en las siguientes fases:</p>
+        
+        <div class="ruta-paso">
+            <h4>PASO 1: INMERSIÓN (Comprender el Texto y la Tarea)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Asegurar la comprensión básica del estímulo (texto, gráfico, etc.) y la demanda específica de la pregunta.</p>
+            <p><strong>Acciones del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Lectura Activa del Estímulo:</strong> Leer el texto completo o analizar detenidamente el gráfico/imagen/tabla para captar la idea general, el tema y la estructura básica. Identificar el tipo de estímulo presentado (continuo, discontinuo, literario, argumentativo, etc.).</li>
+                <li><strong>Lectura Precisa de la Pregunta:</strong> Leer atentamente el enunciado y la pregunta. Identificar:
+                    <ul>
+                        <li><span class="emphasis">Verbo Clave:</span> ¿Qué acción mental se solicita? (identificar, comprender, analizar, inferir, evaluar, relacionar, etc.).</li>
+                        <li><span class="emphasis">Objeto de la Pregunta:</span> ¿Sobre qué elemento específico del estímulo se está preguntando? (una palabra, una frase, un párrafo, la idea global, la postura del autor, una relación, un dato específico, etc.).</li>
+                        <li><span class="emphasis">Palabras Clave:</span> Subrayar o resaltar términos cruciales o que establecen condiciones o restricciones.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Guía del Docente:</strong> Modelar cómo realizar una lectura global rápida y luego una lectura detallada y analítica de la pregunta. Usar POs: <em>"¿De qué trata esto en general?", "¿Qué te pide hacer la pregunta exactamente?".</em></p>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 2: CONEXIÓN (Vincular Pregunta con Estímulo y Competencia)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Enseñar al estudiante a localizar la información o las pistas relevantes dentro del estímulo y a reconocer implícitamente la habilidad lectora (competencia) que debe poner en juego.</p>
+            <p><strong>Acciones del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Localizar Información/Pistas Relevantes:</strong> Volver al estímulo y ubicar las secciones, frases, datos específicos o elementos visuales que se relacionan <span class="emphasis">directamente</span> con lo que la pregunta formuló en la Fase 1.</li>
+                <li><strong>Identificar Tipo de Razonamiento Requerido:</strong> Pensar: ¿La respuesta se encuentra <span class="emphasis">explícitamente</span> (literalmente)? ¿Necesito <span class="emphasis">deducir o inferir</span> algo que no está dicho directamente, pero se sugiere? ¿Debo <span class="emphasis">analizar</span> cómo se conectan las partes o la estructura general? ¿Tengo que <span class="emphasis">evaluar</span> la validez de una idea, la postura del autor o comparar con otro contexto? (Esto conecta con las habilidades de identificar, comprender y evaluar).</li>
+            </ul>
+            <p><strong>Guía del Docente:</strong> Enseñar técnicas de rastreo, localización de información clave y relectura focalizada. Ayudar a reconocer cuándo una pregunta demanda una respuesta literal, inferencial o crítica-evaluativa. Usar POs: <em>"¿En qué parte del estímulo encuentras la pista para responder?", "¿Esta información contesta directamente lo que te preguntaron?".</em></p>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 3: EVALUACIÓN (Analizar Opciones y Distractores)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Desarrollar el pensamiento crítico mediante el análisis riguroso de cada opción de respuesta, identificando y descartando fundamentadamente los distractores.</p>
+            <p><strong>Acciones del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Análisis Individual de CADA Opción:</strong> Leer cuidadosamente cada opción de respuesta (A, B, C, D).</li>
+                <li><strong>Verificar Pertinencia y Respuesta Directa:</strong> ¿Esta opción responde <span class="emphasis">exactamente</span> a lo que se preguntó en la Fase 1? (A veces una opción puede ser verdadera o relacionarse con el texto, pero no ser la respuesta a <span class="emphasis">esa</span> pregunta específica).</li>
+                <li><strong>Buscar Sustento en el Estímulo:</strong> ¿Esta opción se apoya <span class="emphasis">directamente</span> en la información o pistas localizadas en la Fase 2? ¿Se puede señalar la evidencia que la valida dentro del estímulo?</li>
+                <li><strong>Análisis de Distractores (¡Paso Crucial!):</strong> Para cada opción que <span class="emphasis">no</span> se elija, identificar <span class="emphasis">por qué</span> es incorrecta. Preguntarse: ¿Esta opción contradice la información del estímulo? ¿Es una interpretación errónea o exagerada? ¿Es una opinión personal no sustentada en el estímulo? ¿Usa información correcta del estímulo pero la aplica incorrectamente a la pregunta? ¿Se va más allá de lo que permite inferir el estímulo?</li>
+            </ul>
+            <p><strong>Guía del Docente:</strong> Modelar el análisis sistemático de cada opción. Enseñar los tipos comunes de distractores. Fomentar la justificación verbal o escrita del descarte. Usar POs: <em>"¿Por qué crees que la opción A es correcta/incorrecta?", "¿Dónde en el estímulo encuentras apoyo para la opción B?".</em></p>
+        </div>
+
+        <div class="ruta-paso">
+            <h4>PASO 4: JUSTIFICACIÓN Y SELECCIÓN (Validar y Elegir)</h4>
+            <p><strong>Objetivo Pedagógico:</strong> Consolidar la elección final, asegurando que sea la respuesta <span class="emphasis">más adecuada y mejor sustentada</span> por la evidencia encontrada, y coherente con todo el análisis previo.</p>
+            <p><strong>Acciones del Estudiante:</strong></p>
+            <ul>
+                <li><strong>Comparar Opciones Finalistas:</strong> Si persiste la duda entre dos opciones, compararlas directamente: ¿Cuál está <span class="emphasis">mejor</span> sustentada por la evidencia del estímulo? ¿Cuál responde de manera <span class="emphasis">más precisa, completa y directa</span> a la pregunta inicial?</li>
+                <li><strong>Verificación de Coherencia:</strong> Releer la pregunta y la opción seleccionada una última vez. ¿Existe una conexión lógica y clara? ¿La evidencia identificada es sólida para esa opción?</li>
+                <li><strong>Seleccionar la Respuesta Definitiva:</strong> Marcar con confianza la opción elegida.</li>
+            </ul>
+            <p><strong>Guía del Docente:</strong> Enfatizar que se busca la <span class="emphasis">mejor respuesta</span>. Promover el hábito de una revisión rápida y final. Usar POs: <em>"Entre estas dos opciones, ¿cuál tiene la evidencia más fuerte?", "¿Podrías explicarle a un compañero por qué esta es la correcta y las otras no?".</em></p>
+        </div>
+
+        <hr style="margin: 40px 0 30px 0; border-width: 1.5px; border-color: var(--primary-color);">
+
+        <h3>1. Modelado Docente: Aplicando la Ruta del Lector Crítico</h3>
+        <p>Vamos a aplicar estos 4 pasos a una pregunta real de la prueba Saber 11.</p>
+        <div class="example-question-container">
+            <h4>Pregunta Modelo (Tomada de ICFES 2024 - Pregunta 30, Sesión 1, pág. 12)</h4>
+            <div class="context-text">
+                <p><strong>Contexto (Primer Párrafo Completo del texto "Contra la censura"):</strong></p>
+                <p><em>Desde principios de la década de 1960 hasta aproximadamente 1980, la República de Sudáfrica aplicó uno de los sistemas de censura más exhaustivos del mundo. Dicho sistema trataba de controlar la propagación de signos en cualquiera de sus formas. No solo los libros, las revistas, las películas y las obras teatrales, sino también las camisetas, los llaveros, las muñecas, los juguetes y los letreros de las tiendas - en realidad, cualquier cosa portadora de un mensaje que pudiera ser "indeseable" - tenían que someterse al análisis de los censores antes de poder hacerse públicos. En la Unión Soviética había unas setenta mil personas que supervisaban las actividades de unos siete mil escritores. Sin embargo, la proporción entre censores y escritores en Sudáfrica era, en todo caso, superior a diez a uno. Los paranoicos se comportan como si el ambiente estuviera repleto de mensajes codificados. Durante décadas, el Estado sudafricano vivió inmerso en un estado de paranoia. La paranoia es la enfermedad de los gobiernos inseguros, en particular, de las dictaduras. Uno de los rasgos distintivos de las dictaduras modernas respecto a las anteriores ha sido la amplitud y la rapidez con que la paranoia puede extenderse. Pero Sudáfrica y la Unión Soviética no eran casos únicos, Reinaldo Arenas escribió sobre la existencia en Cuba de un ambiente de "amenaza oficial" que hacía del ciudadano "no solo una persona objeto de represión, sino también autorreprimida, no solo una persona censurada, sino autocensurada, no solo vigilada, sino que se vigila a sí misma".</em></p>
+            </div>
+            <span class="question-title">Pregunta 30:</span>
+            <p>Considere el siguiente fragmento del texto:</p>
+            <p><em>"No solo los libros, las revistas, las películas y las obras teatrales, sino también las camisetas, los llaveros, las muñecas, los juguetes y los letreros de las tiendas - en realidad, cualquier cosa portadora de un mensaje que pudiera ser "indeseable" - tenían que someterse al análisis de los censores antes de poder hacerse públicos".</em></p>
+            <p><strong>¿Cuál es la función que cumple este fragmento en el primer párrafo?</strong></p>
+            <ol class="options">
+                <li>Exponer la tesis central del texto según la cual las personas no son solo censuradas sino también autocensuradas.</li>
+                <li>Mostrar ejemplos para ilustrar por qué la paranoia es uno de los rasgos más distintivos de las dictaduras modernas.</li>
+                <li>Mostrar ejemplos que ilustren por qué el sistema de censura sudafricano fue uno de los más severos del mundo.</li>
+                <li>Exponer la tesis central del texto según la cual la paranoia es la enfermedad de los gobiernos inseguros.</li>
+            </ol>
+            <div class="correct-answer-box"><strong>Respuesta Correcta (según análisis previo): B</strong></div>
+            <h4>Desarrollo Detallado de la Ruta (Modelado por el Facilitador):</h4>
+            <ol>
+                <li><strong>PASO 1 (Inmersión):</strong>
+                    <ul>
+                        <li>El contexto general del primer párrafo habla sobre la censura extrema en Sudáfrica, la compara con la URSS, y luego introduce la idea de la paranoia en las dictaduras.</li>
+                        <li>El fragmento específico citado es una lista muy detallada y amplia de objetos (desde libros hasta juguetes) que eran sometidos a censura.</li>
+                        <li>La pregunta es clara: ¿Qué FUNCIÓN cumple ESTE FRAGMENTO DENTRO DEL PRIMER PÁRRAFO? No pregunta por el tema del fragmento en sí, sino su rol en el párrafo.</li>
+                    </ul>
+                </li>
+                <li><strong>PASO 2 (Conexión):</strong>
+                    <ul>
+                        <li>Habilidad lectora: Identificar la función de una parte del texto en relación con las ideas que lo rodean (en este caso, el resto del primer párrafo).</li>
+                        <li>El primer párrafo, después de hablar de Sudáfrica y URSS, dice: "Los paranoicos se comportan como si el ambiente estuviera repleto de mensajes codificados... La paranoia es la enfermedad de los gobiernos inseguros...".</li>
+                        <li>Plan: Ver si el fragmento (la lista de objetos) sirve para apoyar, ejemplificar, contradecir o desarrollar alguna de estas ideas sobre la paranoia o la censura en dictaduras.</li>
+                    </ul>
+                </li>
+                <li><strong>PASO 3 (Evaluación de Opciones):</strong>
+                    <ul>
+                        <li><strong>A:</strong> El fragmento es sobre censura externa, no sobre autocensura (que se menciona más adelante con Reinaldo Arenas). Tampoco es la tesis central de todo el texto. DESCARTADA.</li>
+                        <li><strong>B:</strong> El primer párrafo introduce la paranoia como un rasgo de las dictaduras. La lista tan extensa de objetos cotidianos que debían ser analizados por censores (camisetas, juguetes) es un ejemplo perfecto de cómo se manifiesta esa paranoia (ver "cualquier cosa" como "indeseable"). Esta opción parece muy fuerte. POSIBLE.</li>
+                        <li><strong>C:</strong> Si bien el párrafo inicia con Sudáfrica, el fragmento específico de la lista de objetos no se atribuye exclusivamente a Sudáfrica en ese momento (se menciona justo después de hablar de Sudáfrica pero antes de introducir la paranoia de forma más general). Además, solo con esta lista, no podemos concluir que fue "uno de los más severos del mundo" comparado con otros no mencionados. El foco del fragmento parece más ilustrar la *naturaleza* de la censura paranoica. DESCARTADA.</li>
+                        <li><strong>D:</strong> El fragmento es un ejemplo, no la tesis central completa sobre la paranoia. La tesis es más una afirmación general, y este fragmento la apoya con un caso. DESCARTADA.</li>
+                    </ul>
+                </li>
+                <li><strong>PASO 4 (Justificación y Selección):</strong>
+                    <ul>
+                        <li>La opción B ("Mostrar ejemplos para ilustrar por qué la paranoia es uno de los rasgos más distintivos de las dictaduras modernas") es la que mejor describe la función del fragmento. La enumeración detallada de objetos diversos (incluidos los más inocuos) que eran censurados, sirve como una ilustración vívida de la paranoia de los regímenes dictatoriales que ven amenazas en todas partes. Conecta directamente con la idea de "paranoia" introducida en el mismo párrafo.</li>
+                        <li><strong>Por lo tanto, la respuesta correcta es B.</strong></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr style="margin: 40px 0 30px 0; border-width: 1.5px; border-color: var(--primary-color);">
+        
+        <h3>2. Práctica Guiada: ¡Apliquemos la Ruta Juntos!</h3>
+        <p>Ahora, los docentes intentarán aplicar la ruta a la siguiente pregunta, con algunas guías.</p>
+        <div class="example-question-container practice-box guided-practice">
+            <h4>Pregunta Guiada (Tomada de ICFES 2024 - Pregunta 41, Sesión 1, pág. 17)</h4>
+            <div class="context-text">
+                <p><strong>Contexto (Texto completo "La utilidad de lo inútil"):</strong></p>
+                <p><em>Permítaseme detenerme un momento en una novela que ha hecho soñar a varias generaciones de lectores. Pienso en "Cien años de soledad" de Gabriel García Márquez. Quizá sea posible reencontrar en la lúcida locura de Aureliano Buendía la fecunda inutilidad de la literatura. Encerrado en su taller secreto, el coronel revolucionario fabrica pescaditos de oro a cambio de monedas de oro que después se funden para producir de nuevo otros pescaditos. Círculo vicioso que no escapa a las críticas de Úrsula, a la mirada afectuosa de la madre que se preocupa por el futuro del hijo:
+                Con su terrible sentido práctico, ella [Úrsula] no podía entender el negocio del coronel, que cambiaba los pescaditos por monedas de oro, y luego convertía las monedas de oro en pescaditos, y así sucesivamente, de modo que tenía que trabajar cada vez más a medida que más vendía, para satisfacer un círculo vicioso exasperante. En verdad lo que le interesaba a él no era el negocio sino el trabajo (p. 184).
+                Por lo demás, el coronel mismo confiesa que <<sus únicos instantes felices, desde la tarde remota en que su padre lo llevó a conocer el hielo, habían transcurrido en el taller de platería, donde se le iba el tiempo armando pescaditos de oro>>:
+                Había tenido que promover treinta y dos guerras-sigue aclarando García Márquez-, y había tenido que violar todos sus pactos con la muerte y revolcarse como un cerdo en el muladar de la gloria, para descubrir con casi cuarenta años de retraso los privilegios de la simplicidad (p. 158).
+                Es probable que el acto creativo que da vida a lo que denominamos literatura se base precisamente en esta simplicidad, motivada tan solo por un auténtico gozo y ajena a cualquier aspiración al beneficio. Un acto gratuito, exento de finalidad precisa. Capaz de eludir cualquier lógica comercial. Inútil, por lo tanto, porque no puede ser monetizado. Pero necesario para expresar con su misma existencia un valor alternativo a la supremacía de las leyes del mercado y el lucro.</em></p>
+                <p><strong>Tomado de: Ordine, N. (2013). La utilidad de lo inútil, p 30. Madrid, Acantilada.</strong></p>
+            </div>
+            <span class="question-title">Pregunta 41:</span>
+            <p><strong>La tesis central del texto se encuentra enunciada en</strong></p>
+            <ol class="options">
+               <li>A. El primer párrafo.</li>
+               <li>B. El segundo párrafo.</li>
+               <li>C. El último párrafo.</li>
+               <li>D. El penúltimo.</li>
+            </ol>
+            <div class="correct-answer-box" style="margin-top:15px; background-color:#fff9e6; border-color:#ffd566;">
+                <strong>Respuesta Correcta (A verificar por el grupo):</strong> [ ] <!-- Placeholder Visual para que el docente guíe -->
+            </div>
+            <h4>Guía para Aplicar la Ruta:</h4>
+            <p class="prompt"><strong>Paso 1 (Inmersión):</strong> ¿Cuál es la pregunta exacta? (Localizar la tesis central). ¿Cuál es el tema general del texto? (La "inutilidad" útil de la literatura/creatividad, ejemplificada con Aureliano Buendía).</p>
+            <p class="prompt"><strong>Paso 2 (Conexión/Plan):</strong> ¿Qué es una "tesis central"? (La idea principal, el argumento fundamental que el autor quiere demostrar o sostener a lo largo del texto). ¿Dónde suelen aparecer las tesis en textos argumentativos cortos? (A menudo al inicio para presentarla, o al final como conclusión). Plan: Releer cada párrafo identificando su idea principal y ver cuál de ellas engloba el mensaje de todo el texto.</p>
+            <p class="prompt"><strong>Paso 3 (Ejecutar/Evaluar):</strong> (¡Turno de los docentes!) Analicen cada párrafo:
+                <ul>
+                    <li>Primer párrafo: Introduce el tema con Aureliano y la "fecunda inutilidad de la literatura".</li>
+                    <li>Segundo párrafo: Perspectiva de Úrsula sobre el "negocio" del coronel.</li>
+                    <li>Tercer párrafo: Confesión del coronel sobre sus "instantes felices" y la "simplicidad".</li>
+                    <li>Cuarto párrafo (Penúltimo): Relaciona el acto creativo de la literatura con la simplicidad, gozo, gratuidad, y ser un valor alternativo al mercado. ¿Suena esto como una idea central que engloba lo anterior?</li>
+                    <li>Quinto párrafo (Último): Es la referencia bibliográfica.</li>
+                </ul>
+                Ahora, evalúen las opciones A, B, C, D basándose en su análisis de los párrafos. ¿Cuál opción identifica el párrafo que contiene la afirmación más global y argumentativa del texto?</p>
+            <p class="prompt"><strong>Paso 4 (Asegurar/Elegir):</strong> ¿Cuál párrafo presenta la idea principal que el autor quiere defender sobre la "utilidad de lo inútil"? ¡Discutan y seleccionen la mejor opción!</p>
+        </div>
+
+        <hr style="margin: 40px 0 30px 0; border-width: 1.5px; border-color: var(--primary-color);">
+
+        <h3>3. Práctica Independiente: ¡Ahora ustedes!</h3>
+        <p>Como grupo docente, apliquen la Ruta del Lector Crítico completa para resolver esta pregunta. Discutan cada paso.</p>
+        <div class="example-question-container practice-box independent-practice">
+            <h4>Pregunta Independiente (Tomada de ICFES 2024 - Pregunta 54, Sesión 1, pág. 22)</h4>
+            <div class="context-text">
+                <p><strong>Contexto (Texto completo "Feminismo Light"):</strong></p>
+                <p><em>Cuidado con lo que yo llamo feminismo <strong>Light</strong>. Es la idea de la igualdad femenina condicional. Recházala de plano, por favor. Es una idea vacua, fallida y tranquilizadora. Ser feminista es como estar embarazada. Lo estás o no lo estás. O crees en la plena igualdad entre hombres y mujeres o no. El feminismo <strong>Light</strong> emplea analogías como "él es la cabeza y tú el cuello". O "él conduce, pero tú viajas en el asiento delantero". Aún más preocupante es que dentro del feminismo <strong>Light</strong> está la idea de que los hombres son superiores por naturaleza, pero deben "tratar bien" a las mujeres. No. No. No.
+                El bienestar de una mujer debe basarse en algo más que la benevolencia masculina. El feminismo <strong>Light</strong> recurre al lenguaje de la "permisión". Theresa May es la primera ministra británica y un diario progresista de su país describía así a su marido: "Philip May es conocido en la política por ser un hombre que ha dado un paso atrás para permitir que sea su mujer, Theresa, quien brille". Permitir. Démoste la vuelta. Theresa May ha permitido a su marido brillar ¿Tiene sentido? Si, Philip May fuera primer ministro quizá oiríamos que su esposa le ha "apoyado desde un segundo plano o que está "detrás de él" o "a su lado". Pero jamás que le ha <<permitido>> brillar [...] La triste verdad es que nuestro mundo está repleto de hombres y mujeres a quienes les gustan las mujeres poderosas. Nos han condicionado tanto con que el poder es masculino, que una mujer poderosa nos parece una aberración. Y como tal la vigilan. De una mujer poderosa nos preguntamos: ¿Es humilde? ¿Sonríe? ¿Es lo bastante agradecida? ¿Tiene también su lado doméstico? Preguntas que no nos planteamos de los hombres poderosos, lo cual prueba que no nos incomoda el poder en sí, sino las mujeres. Juzgamos más duramente a las mujeres poderosas que a los hombres poderosos. Y el feminismo <strong>Light</strong> lo hace posible.</em></p>
+                <p><strong>Ngozi Adichie, Ch. (2017). Querida Ijeawele. Cómo educar en el feminismo. Colombia: Literatura Random House</strong></p>
+            </div>
+            <span class="question-title">Pregunta 54:</span>
+            <p><strong>El enunciado "ser feminista es como estar embarazada" quiere decir que</strong></p>
+            <ol class="options">
+                <li>A. No hay un término medio entre ser o no ser feminista.</li>
+                <li>B. Las mujeres embarazadas pueden ser feministas.</li>
+                <li>C. Ser feminista implica estar en posición embarazosa.</li>
+                <li>D. Una mujer feminista solo si está embarazada.</li>
+            </ol>
+            <p class="prompt" style="font-weight:600; color:var(--brand-dark-blue);"><strong>¡Su Turno!</strong> Apliquen los 4 pasos de la Ruta del Lector Crítico. Analicen el significado de la analogía en el contexto del "feminismo Light" que critica la autora. ¿Qué implicación tiene la comparación con el embarazo respecto a la naturaleza del feminismo según Adichie?</p>
+            <!-- No se muestra la respuesta correcta aquí -->
+        </div>
+
+        <p style="margin-top:30px; text-align:center; font-weight:600;"><a href="estrategias_aula.html" style="color:var(--link-color); text-decoration:none; font-size:1.2rem; padding:10px 15px; border:1px solid var(--link-color); border-radius:5px;">Siguiente Módulo: Estrategias de Aula →</a></p>
+    </main>
+
+    <footer id="main-footer">
+        <div class="footer-logo-placeholder">(LOGO Grupo Edúcate)</div>
+        <p><strong>Autor:</strong> Marlon Galvis Villa - Departamento de Pedagogía, Grupo Edúcate Colombia.</p>
+        <p>Módulo Taller Práctico Lectura Crítica - Taller Docente Saber 11.</p>
+    </footer>
+</body>
+</html>
